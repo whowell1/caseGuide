@@ -7,7 +7,8 @@ def main():
         if case_number.lower() == 'exit()':
             break
         
-        case_directory = create_investigation_directory(case_number)
+        custom_path = input("Enter the directory path to save the case guide (leave empty to use default path): ")
+        case_directory = create_investigation_directory(case_number, custom_path)
         file_path = os.path.join(case_directory, f"{case_number}.md")
         
         while True:
@@ -21,10 +22,13 @@ def main():
             if go_back.lower() != 'yes':
                 break
 
-def create_investigation_directory(case_number):
-    desktop_path = os.path.join(os.path.expanduser('~'), 'Desktop', 'Investigations', case_number)
-    os.makedirs(desktop_path, exist_ok=True)
-    return desktop_path
+def create_investigation_directory(case_number, custom_path):
+    if custom_path:
+        case_directory = os.path.join(custom_path, case_number)
+    else:
+        case_directory = os.path.join(os.path.expanduser('~'), 'Desktop', 'Investigations', case_number)
+    os.makedirs(case_directory, exist_ok=True)
+    return case_directory
 
 def select_case_type():
     case_types = {
