@@ -2,7 +2,8 @@ import os
 
 def main():
     case_number = input("Enter the case number: ")
-    file_path = create_investigation_file(case_number)
+    case_directory = create_case_directory(case_number)
+    file_path = create_investigation_file(case_directory, case_number)
     
     while True:
         case_type = select_case_type()
@@ -25,10 +26,14 @@ def main():
         if go_back.lower() != 'yes':
             break
 
-def create_investigation_file(case_number):
+def create_case_directory(case_number):
     desktop_path = os.path.join(os.path.expanduser('~'), 'Desktop', 'Investigations')
-    os.makedirs(desktop_path, exist_ok=True)
-    return os.path.join(desktop_path, f"{case_number}.md")
+    case_path = os.path.join(desktop_path, f"Case_{case_number}")
+    os.makedirs(case_path, exist_ok=True)
+    return case_path
+
+def create_investigation_file(case_directory, case_number):
+    return os.path.join(case_directory, f"{case_number}.md")
 
 def select_case_type():
     case_types = {
